@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Créditos Sefar Universal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <!-- Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p8Jdzz2cYUK5GckX1c0Yc6XJyl4CxjOboPnBVV5M4pufz1V2bTEVvYtOHr1Jt5rMFE9WPrBB88g3lIsA+Zp2Kg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Variables de colores para modo claro y oscuro */
+        :root {
+            --background: #707070; /* Fondo más oscuro */
+            --background-calculator: #ffffff;
+            --text-color: #333333;
+            --input-background: #ffffff;
+            --input-border: #ced4da;
+            --input-text: #495057;
+            /* Colores ajustados para seguir el logo */
+            --button-background: #28a745; /* Verde más vibrante */
+            --button-hover: #218838;      /* Verde oscuro */
+            --button-active: #1e7e34;     /* Verde más oscuro */
+            --button-clear: #dc3545;      /* Rojo para acciones de borrado */
+            --button-clear-hover: #c82333;/* Rojo oscuro */
+            --button-clear-active: #a93226;/* Rojo más oscuro */
+            --slider-track: #ced4da;
+            --slider-thumb: #28a745;      /* Verde para el slider */
+            --cuotas-display: #333333;
+            --result-text: #2c3e50;
+            --box-shadow: rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+            --font-primary: 'Roboto', sans-serif;
+            --font-secondary: 'Montserrat', sans-serif;
+            --select-arrow: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%2328a745"><polygon points="0,0 20,0 10,10" /></svg>');
+        }
+
+        .dark-theme {
+            --background: #1a1a1a; /* Fondo más oscuro para modo oscuro */
+            --background-calculator: #2c2c2c;
+            --text-color: #e0e0e0;
+            --input-background: #3a3a3a;
+            --input-border: #555555;
+            --input-text: #e0e0e0;
+            --button-background: #28a745; /* Mantenemos el verde */
+            --button-hover: #218838;
+            --button-active: #1e7e34;
+            --button-clear: #dc3545;
+            --button-clear-hover: #c82333;
+            --button-clear-active: #a93226;
+            --slider-track: #555555;
+            --slider-thumb: #28a745;
+            --cuotas-display: #e0e0e0;
+            --result-text: #bdc3c7;
+            --box-shadow: rgba(0, 0, 0, 0.5);
+            --select-arrow: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%23e0e0e0"><polygon points="0,0 20,0 10,10" /></svg>');
+        }
+
+        /* Reset de márgenes y paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos generales del cuerpo */
+        body {
+            font-family: var(--font-primary);
+            background: var(--background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Para colocar el logo y la calculadora verticalmente */
+            min-height: 100vh;
+            transition: background var(--transition-speed);
+        }
+
+        /* Contenedor del logo */
+        .logo-container {
+            margin-bottom: 30px; /* Espacio entre el logo y la calculadora */
+            text-align: center;
+        }
+
+        .logo-container img {
+            max-width: 400px; /* Tamaño máximo del logo aumentado */
+            width: 100%;
+            height: auto;
+        }
+
+        /* Contenedor de la calculadora */
+        .calculator {
+            background-color: var(--background-calculator);
+            padding: 40px 50px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px var(--box-shadow);
+            max-width: 600px; /* Aumentado para acomodar opciones más largas */
+            width: 100%;
+            animation: fadeIn 0.8s ease-in-out;
+            position: relative;
+            transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        /* Animación de entrada */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Botón de modo oscuro */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.8em;
+            color: var(--text-color);
+            transition: color var(--transition-speed);
+        }
+
+        .theme-toggle:focus {
+            outline: none;
+        }
+
+        /* Título de la calculadora */
+        .calculator h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-color);
+            font-family: var(--font-secondary);
+            font-size: 2em;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        /* Icono decorativo */
+        .calculator h2::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 5px;
+            background: var(--button-background);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+        }
+
+        /* Grupo de servicios */
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--input-text);
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .input-group select {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            font-size: 1em;
+            background-color: var(--input-background);
+            color: var(--input-text);
+            transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
+            appearance: none;
+            background-image: var(--select-arrow);
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 10px;
+            cursor: pointer;
+            /* Añadir padding para evitar texto sobre la flecha */
+            padding-right: 40px;
+        }
+
+        .input-group select:focus {
+            border-color: var(--button-background);
+            box-shadow: 0 0 5px var(--button-background);
+            outline: none;
+        }
+
+        /* Grupo del slider */
+        .slider-group {
+            margin-bottom: 25px;
+        }
+
+        .slider-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--input-text);
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .slider-container {
+            position: relative;
+        }
+
+        .slider-container input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            background: transparent;
+            height: 10px;
+            border-radius: 5px;
+            outline: none;
+            margin: 15px 0;
+        }
+
+        /* Estilos del slider para navegadores WebKit */
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 26px;
+            height: 26px;
+            background: var(--slider-thumb);
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid var(--background-calculator);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: background var(--transition-speed), transform 0.2s;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb:hover {
+            background: var(--button-hover);
+            transform: scale(1.1);
+        }
+
+        /* Estilos del slider para Firefox */
+        .slider-container input[type="range"]::-moz-range-thumb {
+            width: 26px;
+            height: 26px;
+            background: var(--slider-thumb);
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid var(--background-calculator);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: background var(--transition-speed), transform 0.2s;
+        }
+
+        .slider-container input[type="range"]::-moz-range-thumb:hover {
+            background: var(--button-hover);
+            transform: scale(1.1);
+        }
+
+        /* Línea del slider */
+        .slider-container input[type="range"]::-webkit-slider-runnable-track {
+            height: 10px;
+            background: var(--slider-track);
+            border-radius: 5px;
+        }
+
+        .slider-container input[type="range"]::-moz-range-track {
+            height: 10px;
+            background: var(--slider-track);
+            border-radius: 5px;
+        }
+
+        /* Display de cuotas */
+        .cuotas-display {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.2em;
+            color: var(--cuotas-display);
+            font-weight: 600;
+        }
+
+        /* Contenedor de botones */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        /* Botón de calcular y borrar */
+        .calculate-button, .clear-button {
+            flex: 1;
+            padding: 14px;
+            background-color: var(--button-background);
+            border: none;
+            color: #ffffff;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), transform 0.2s, box-shadow var(--transition-speed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .clear-button {
+            background-color: var(--button-clear);
+        }
+
+        .calculate-button:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .calculate-button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        .clear-button:hover {
+            background-color: var(--button-clear-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .clear-button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        /* Resultado */
+        .result {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.2em;
+            color: var(--result-text);
+            line-height: 1.8;
+            background: var(--background-calculator);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .result p {
+            margin-bottom: 10px;
+        }
+
+        .result strong {
+            color: var(--button-background);
+        }
+
+        /* Estilos para el botón de calcular con ícono */
+        .calculate-button i, .clear-button i {
+            margin-right: 8px;
+            transition: transform 0.2s;
+        }
+
+        .calculate-button:hover i, .clear-button:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .calculator {
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calculator {
+                padding: 30px 25px;
+            }
+
+            .calculator h2 {
+                font-size: 1.6em;
+            }
+
+            .input-group label, .slider-group label {
+                font-size: 1em;
+            }
+
+            .input-group select, .slider-container input[type="range"] {
+                font-size: 0.95em;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .calculate-button, .clear-button {
+                font-size: 1em;
+                padding: 12px;
+            }
+
+            .result {
+                font-size: 1em;
+                padding: 15px;
+            }
+
+            .theme-toggle {
+                font-size: 1.3em;
+            }
+
+            /* Ajuste del logo en pantallas pequeñas */
+            .logo-container img {
+                max-width: 250px; /* Tamaño reducido en pantallas pequeñas */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contenedor del logo fuera de la calculadora -->
+    <div class="logo-container">
+        <img src="https://sefaruniversal.com/wp-content/uploads/2021/01/Logo-de-Sefar-Universal-nuevo-rediseno-pagina-web-Abogados-y-Genealogistas-letras-blancas.png" alt="Logo Sefar Universal">
+    </div>
+
+    <div class="calculator">
+        <!-- Botón de modo oscuro -->
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <h2>Calculadora de Créditos Sefar Universal</h2>
+
+        <!-- Lista Desplegable de Servicios Actualizada -->
+        <div class="input-group">
+            <label for="servicio">Selecciona un Servicio:</label>
+            <select id="servicio">
+                <option value="8000">Nacionalidad Española por origen sefardi (€8000)</option>
+                <option value="8000">Nacionalidad Portuguesa por origen sefardi (€8000)</option>
+                <option value="8000">Nacionalidad Italiana por origen sefardi (€8000)</option>
+            </select>
+        </div>
+
+        <!-- Grupo del slider -->
+        <div class="slider-group">
+            <label for="cuotas">Número de Cuotas:</label>
+            <div class="slider-container">
+                <input type="range" id="cuotas" min="3" max="12" value="3">
+            </div>
+        </div>
+
+        <div class="cuotas-display">
+            Cuotas: <span id="cuotas-value">3</span>
+        </div>
+
+        <div class="button-group">
+            <button class="calculate-button" onclick="calcularCredito()">
+                <i class="fas fa-calculator"></i> Calcular
+            </button>
+            <button class="clear-button" onclick="borrarDatos()">
+                <i class="fas fa-trash-alt"></i> Borrar
+            </button>
+        </div>
+
+        <div class="result" id="resultado">
+            <!-- Resultado aparecerá aquí -->
+        </div>
+    </div>
+
+    <script>
+        const slider = document.getElementById('cuotas');
+        const cuotasValue = document.getElementById('cuotas-value');
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const servicioSelect = document.getElementById('servicio');
+
+        // Actualizar el valor mostrado cuando se mueve el slider
+        slider.addEventListener('input', function() {
+            cuotasValue.textContent = this.value;
+        });
+
+        function calcularCredito() {
+            const monto = parseFloat(servicioSelect.value);
+            const cuotas = parseInt(slider.value);
+
+            if (isNaN(monto) || monto <= 0) {
+                alert('Por favor, selecciona un servicio válido.');
+                return;
+            }
+
+            // Tasa de interés fija del 5%
+            const tasaInteres = 0.05;
+            const interesTotal = monto * tasaInteres;
+            const montoTotal = monto + interesTotal;
+            const cuotaMensual = (montoTotal / cuotas).toFixed(2);
+
+            document.getElementById('resultado').innerHTML = `
+                <p>Monto Total a Pagar: <strong>€${montoTotal.toFixed(2)}</strong></p>
+                <p>Cuota Mensual: <strong>€${cuotaMensual}</strong></p>
+            `;
+        }
+
+        function borrarDatos() {
+            // Restablecer la lista desplegable al primer servicio
+            servicioSelect.selectedIndex = 0;
+
+            // Restablecer el slider al valor mínimo (3)
+            slider.value = 3;
+            cuotasValue.textContent = 3;
+
+            // Limpiar el resultado
+            document.getElementById('resultado').innerHTML = '';
+        }
+
+        // Funcionalidad de modo oscuro
+        function toggleTheme() {
+            body.classList.toggle('dark-theme');
+
+            // Cambiar el ícono
+            const icon = themeToggle.querySelector('i');
+            if (body.classList.contains('dark-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+
+            // Guardar la preferencia en localStorage
+            if (body.classList.contains('dark-theme')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Cargar la preferencia de tema al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-theme');
+                const icon = themeToggle.querySelector('i');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        });
+
+        // Event listener para el botón de modo oscuro
+        themeToggle.addEventListener('click', toggleTheme);
+    </script>
+
+</body>
+</html>
