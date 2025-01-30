@@ -11,48 +11,52 @@
     <style>
         /* Variables de colores para modo claro y oscuro */
         :root {
-            --background: #707070; /* Fondo más oscuro */
-            --background-calculator: #ffffff;
-            --text-color: #333333;
+            --background: #4d4d4d; /* Fondo gris medio */
+            --background-calculator: #f5f5f5; /* Gris muy claro para reducir brillo */
+            --text-color: #ffffff; /* Texto blanco para buen contraste */
+            --title-color: #000000; /* Título en negro */
             --input-background: #ffffff;
             --input-border: #ced4da;
-            --input-text: #495057;
-            /* Colores ajustados para seguir el logo */
-            --button-background: #28a745; /* Verde más vibrante */
-            --button-hover: #218838;      /* Verde oscuro */
-            --button-active: #1e7e34;     /* Verde más oscuro */
-            --button-clear: #dc3545;      /* Rojo para acciones de borrado */
-            --button-clear-hover: #c82333;/* Rojo oscuro */
-            --button-clear-active: #a93226;/* Rojo más oscuro */
+            --input-text: #333333; /* Texto oscuro para inputs */
+            /* Colores ajustados según el logo */
+            --button-background: #1ABC9C; /* Verde Principal */
+            --button-hover: #16A085;      /* Verde Oscuro */
+            --button-active: #148F77;     /* Verde Más Oscuro */
+            --button-clear: #E74C3C;      /* Rojo Principal */
+            --button-clear-hover: #C0392B;/* Rojo Oscuro */
+            --button-clear-active: #A93226;/* Rojo Más Oscuro */
             --slider-track: #ced4da;
-            --slider-thumb: #28a745;      /* Verde para el slider */
-            --cuotas-display: #333333;
-            --result-text: #2c3e50;
-            --box-shadow: rgba(0, 0, 0, 0.1);
+            --slider-thumb: #1ABC9C;      /* Verde para el slider */
+            --cuotas-display: #000000; /* Texto negro para cuotas en modo claro */
+            --result-background: #e0e0e0; /* Fondo ligeramente más oscuro para resultados en modo claro */
+            --result-text: #3498DB;        /* Azul Secundario */
+            --box-shadow: rgba(0, 0, 0, 0.05); /* Sombras más suaves */
             --transition-speed: 0.3s;
             --font-primary: 'Roboto', sans-serif;
             --font-secondary: 'Montserrat', sans-serif;
-            --select-arrow: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%2328a745"><polygon points="0,0 20,0 10,10" /></svg>');
+            --select-arrow: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%231ABC9C"><polygon points="0,0 20,0 10,10" /></svg>');
         }
 
         .dark-theme {
             --background: #1a1a1a; /* Fondo más oscuro para modo oscuro */
             --background-calculator: #2c2c2c;
             --text-color: #e0e0e0;
+            --title-color: #ffffff; /* Título en blanco */
             --input-background: #3a3a3a;
             --input-border: #555555;
             --input-text: #e0e0e0;
-            --button-background: #28a745; /* Mantenemos el verde */
-            --button-hover: #218838;
-            --button-active: #1e7e34;
-            --button-clear: #dc3545;
-            --button-clear-hover: #c82333;
-            --button-clear-active: #a93226;
+            --button-background: #1ABC9C; /* Mantenemos el verde principal */
+            --button-hover: #16A085;
+            --button-active: #148F77;
+            --button-clear: #E74C3C;
+            --button-clear-hover: #C0392B;
+            --button-clear-active: #A93226;
             --slider-track: #555555;
-            --slider-thumb: #28a745;
-            --cuotas-display: #e0e0e0;
-            --result-text: #bdc3c7;
-            --box-shadow: rgba(0, 0, 0, 0.5);
+            --slider-thumb: #1ABC9C;
+            --cuotas-display: #e0e0e0; /* Texto claro para cuotas en modo oscuro */
+            --result-background: #3a3a3a; /* Fondo ligeramente más oscuro para resultados en modo oscuro */
+            --result-text: #3498DB;
+            --box-shadow: rgba(0, 0, 0, 0.3); /* Sombras más suaves en modo oscuro */
             --select-arrow: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%23e0e0e0"><polygon points="0,0 20,0 10,10" /></svg>');
         }
 
@@ -127,7 +131,7 @@
         .calculator h2 {
             text-align: center;
             margin-bottom: 30px;
-            color: var(--text-color);
+            color: var(--title-color); /* Usar la variable para el color del título */
             font-family: var(--font-secondary);
             font-size: 2em;
             letter-spacing: 1px;
@@ -147,12 +151,12 @@
             border-radius: 5px;
         }
 
-        /* Grupo de servicios */
-        .input-group {
+        /* Grupo de monto a financiar */
+        .input-group-monto {
             margin-bottom: 25px;
         }
 
-        .input-group label {
+        .input-group-monto label {
             display: block;
             margin-bottom: 10px;
             color: var(--input-text);
@@ -160,7 +164,37 @@
             font-size: 1.1em;
         }
 
-        .input-group select {
+        .input-group-monto input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            font-size: 1em;
+            background-color: var(--input-background);
+            color: var(--input-text);
+            transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
+            outline: none;
+        }
+
+        .input-group-monto input:focus {
+            border-color: var(--button-background);
+            box-shadow: 0 0 5px var(--button-background);
+        }
+
+        /* Grupo de servicios */
+        .input-group-servicio {
+            margin-bottom: 25px;
+        }
+
+        .input-group-servicio label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--input-text);
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .input-group-servicio select {
             width: 100%;
             padding: 12px 20px;
             border: 1px solid var(--input-border);
@@ -179,7 +213,7 @@
             padding-right: 40px;
         }
 
-        .input-group select:focus {
+        .input-group-servicio select:focus {
             border-color: var(--button-background);
             box-shadow: 0 0 5px var(--button-background);
             outline: none;
@@ -266,7 +300,7 @@
             text-align: center;
             margin-bottom: 25px;
             font-size: 1.2em;
-            color: var(--cuotas-display);
+            color: var(--cuotas-display); /* Negro en modo claro, claro en modo oscuro */
             font-weight: 600;
         }
 
@@ -328,7 +362,7 @@
             font-size: 1.2em;
             color: var(--result-text);
             line-height: 1.8;
-            background: var(--background-calculator);
+            background: var(--result-background); /* Usar la nueva variable para el fondo de resultados */
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -353,6 +387,82 @@
             transform: scale(1.2);
         }
 
+        /* Modal de Error */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed; /* Fijo */
+            z-index: 1000; /* Por encima de otros elementos */
+            left: 0;
+            top: 0;
+            width: 100%; /* Ancho completo */
+            height: 100%; /* Alto completo */
+            overflow: auto; /* Habilitar scroll si es necesario */
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+            transition: opacity var(--transition-speed);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 25% auto; /* 25% desde arriba y centrado */
+            padding: 20px;
+            border: none;
+            width: 80%;
+            max-width: 400px; /* Ancho máximo */
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: fadeInModal 0.5s;
+            text-align: center;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #000;
+            text-decoration: none;
+        }
+
+        .modal-message {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .modal-button {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .modal-button button {
+            padding: 10px 20px;
+            background-color: var(--button-background);
+            border: none;
+            color: #ffffff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+            font-size: 1em;
+        }
+
+        .modal-button button:hover {
+            background-color: var(--button-hover);
+        }
+
         /* Responsividad */
         @media (max-width: 768px) {
             .calculator {
@@ -369,11 +479,11 @@
                 font-size: 1.6em;
             }
 
-            .input-group label, .slider-group label {
+            .input-group-monto label, .input-group-servicio label, .slider-group label {
                 font-size: 1em;
             }
 
-            .input-group select, .slider-container input[type="range"] {
+            .input-group-monto input, .input-group-servicio select, .slider-container input[type="range"] {
                 font-size: 0.95em;
             }
 
@@ -400,6 +510,12 @@
             .logo-container img {
                 max-width: 250px; /* Tamaño reducido en pantallas pequeñas */
             }
+
+            /* Estilos del Modal en pantallas pequeñas */
+            .modal-content {
+                width: 90%;
+                margin: 35% auto; /* Más espacio desde arriba en pantallas pequeñas */
+            }
         }
     </style>
 </head>
@@ -418,13 +534,20 @@
 
         <h2>Calculadora de Créditos Sefar Universal</h2>
 
-        <!-- Lista Desplegable de Servicios Actualizada -->
-        <div class="input-group">
+        <!-- Grupo de monto a financiar -->
+        <div class="input-group-monto">
+            <label for="monto">Monto a Financiar:</label>
+            <input type="number" id="monto" min="1000" max="100000" step="100" placeholder="Ingrese el monto (€)" aria-label="Monto a Financiar" required>
+        </div>
+
+        <!-- Grupo de servicios -->
+        <div class="input-group-servicio">
             <label for="servicio">Selecciona un Servicio:</label>
-            <select id="servicio">
-                <option value="8000">Nacionalidad Española por origen sefardi (€8000)</option>
-                <option value="8000">Nacionalidad Portuguesa por origen sefardi (€8000)</option>
-                <option value="8000">Nacionalidad Italiana por origen sefardi (€8000)</option>
+            <select id="servicio" aria-label="Selecciona un Servicio">
+                <option value="">-- Seleccione un servicio --</option>
+                <option value="8000">Nacionalidad Española por origen sefardi (€8.000)</option>
+                <option value="8000">Nacionalidad Portuguesa por origen sefardi (€8.000)</option>
+                <option value="8000">Nacionalidad Italiana por origen sefardi (€8.000)</option>
             </select>
         </div>
 
@@ -432,12 +555,12 @@
         <div class="slider-group">
             <label for="cuotas">Número de Cuotas:</label>
             <div class="slider-container">
-                <input type="range" id="cuotas" min="3" max="12" value="3">
+                <input type="range" id="cuotas" min="3" max="12" value="5">
             </div>
         </div>
 
         <div class="cuotas-display">
-            Cuotas: <span id="cuotas-value">3</span>
+            Cuotas: <span id="cuotas-value">5</span>
         </div>
 
         <div class="button-group">
@@ -454,46 +577,88 @@
         </div>
     </div>
 
+    <!-- Modal de Error -->
+    <div id="error-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div class="modal-message" id="modal-message">
+                Por favor, ingresa un monto válido.
+            </div>
+            <div class="modal-button">
+                <button id="close-button">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const slider = document.getElementById('cuotas');
         const cuotasValue = document.getElementById('cuotas-value');
         const themeToggle = document.getElementById('theme-toggle');
         const body = document.body;
+        const montoInput = document.getElementById('monto');
         const servicioSelect = document.getElementById('servicio');
+
+        // Modal Elements
+        const errorModal = document.getElementById('error-modal');
+        const closeModal = document.getElementById('close-modal');
+        const closeButton = document.getElementById('close-button');
+        const modalMessage = document.getElementById('modal-message');
 
         // Actualizar el valor mostrado cuando se mueve el slider
         slider.addEventListener('input', function() {
             cuotasValue.textContent = this.value;
         });
 
+        // Función para mostrar el modal de error
+        function showErrorModal() {
+            errorModal.style.display = 'block';
+        }
+
+        // Función para ocultar el modal de error
+        function hideErrorModal() {
+            errorModal.style.display = 'none';
+        }
+
+        // Función para calcular el crédito
         function calcularCredito() {
-            const monto = parseFloat(servicioSelect.value);
+            const monto = parseFloat(montoInput.value);
             const cuotas = parseInt(slider.value);
 
-            if (isNaN(monto) || monto <= 0) {
-                alert('Por favor, selecciona un servicio válido.');
+            // Validación del Monto a Financiar
+            if (isNaN(monto) || monto < parseFloat(montoInput.min) || monto > parseFloat(montoInput.max)) {
+                showErrorModal();
                 return;
             }
 
-            // Tasa de interés fija del 5%
+            // Validación del Número de Cuotas
+            if (isNaN(cuotas) || cuotas < 3 || cuotas > 12) {
+                showErrorModal();
+                return;
+            }
+
+            // Tasa de interés fija del 5% por mes
             const tasaInteres = 0.05;
-            const interesTotal = monto * tasaInteres;
+            const interesTotal = monto * tasaInteres * cuotas;
             const montoTotal = monto + interesTotal;
             const cuotaMensual = (montoTotal / cuotas).toFixed(2);
 
             document.getElementById('resultado').innerHTML = `
                 <p>Monto Total a Pagar: <strong>€${montoTotal.toFixed(2)}</strong></p>
-                <p>Cuota Mensual: <strong>€${cuotaMensual}</strong></p>
+                <p>Cuota Mensual: <strong>€${cuotaMensual}</strong> durante ${cuotas} mes(es)</p>
             `;
         }
 
+        // Función para borrar los datos
         function borrarDatos() {
+            // Restablecer el input de monto a Financiar
+            montoInput.value = '';
+
             // Restablecer la lista desplegable al primer servicio
             servicioSelect.selectedIndex = 0;
 
-            // Restablecer el slider al valor mínimo (3)
-            slider.value = 3;
-            cuotasValue.textContent = 3;
+            // Restablecer el slider al valor predeterminado (5)
+            slider.value = 5;
+            cuotasValue.textContent = 5;
 
             // Limpiar el resultado
             document.getElementById('resultado').innerHTML = '';
@@ -530,10 +695,24 @@
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
             }
+
+            // Establecer el valor inicial del slider
+            cuotasValue.textContent = slider.value;
         });
 
         // Event listener para el botón de modo oscuro
         themeToggle.addEventListener('click', toggleTheme);
+
+        // Event listeners para cerrar el modal
+        closeModal.addEventListener('click', hideErrorModal);
+        closeButton.addEventListener('click', hideErrorModal);
+
+        // Cerrar el modal al hacer clic fuera del contenido
+        window.addEventListener('click', function(event) {
+            if (event.target == errorModal) {
+                hideErrorModal();
+            }
+        });
     </script>
 
 </body>
