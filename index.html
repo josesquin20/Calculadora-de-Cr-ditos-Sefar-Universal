@@ -1,861 +1,832 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Créditos Sefar Universal</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
-    <!-- Font Awesome para los íconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          integrity="sha512-p8Jdzz2cYUK5GckX1c0Yc6XJyl4CxjOboPnBVV5M4pufz1V2bTEVvYtOHr1Jt5rMFE9WPrBB88g3lIsA+Zp2Kg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        /* Variables de colores para modo claro y oscuro */
-        :root {
-            --background: #4d4d4d; /* Fondo gris medio */
-            --background-calculator: #f5f5f5; /* Gris muy claro */
-            --text-color: #ffffff; /* Texto blanco */
-            --title-color: #000000; /* Título en negro */
-            --input-background: #ffffff;
-            --input-border: #ced4da;
-            --input-text: #333333; /* Texto oscuro para inputs */
-            --button-background: #1ABC9C; /* Verde Principal */
-            --button-hover: #16A085;      /* Verde Oscuro */
-            --button-active: #148F77;     /* Verde Más Oscuro */
-            --button-clear: #E74C3C;      /* Rojo Principal */
-            --button-clear-hover: #C0392B;/* Rojo Oscuro */
-            --button-clear-active: #A93226;/* Rojo Más Oscuro */
-            --slider-track: #ced4da;
-            --slider-thumb: #1ABC9C;      /* Verde para el slider */
-            --cuotas-display: #000000; /* Texto negro en modo claro */
-            --result-background: #e0e0e0; /* Fondo resultados en modo claro */
-            --result-text: #3498DB;        /* Texto resultados */
-            --box-shadow: rgba(0, 0, 0, 0.05); /* Sombras suaves */
-            --transition-speed: 0.3s;
-            --font-primary: 'Roboto', sans-serif;
-            --font-secondary: 'Montserrat', sans-serif;
-            --select-arrow: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%231ABC9C"><polygon points="0,0 20,0 10,10" /></svg>');
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simula tu Financiamiento con Sefar Universal</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+  <!-- Font Awesome para los íconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-p8Jdzz2cYUK5GckX1c0Yc6XJyl4CxjOboPnBVV5M4pufz1V2bTEVvYtOHr1Jt5rMFE9WPrBB88g3lIsA+Zp2Kg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Variables de colores para modo claro y oscuro */
+    :root {
+      --background: #4d4d4d; /* Fondo gris medio */
+      --background-calculator: #f5f5f5; /* Gris muy claro */
+      --text-color: #ffffff; /* Texto blanco */
+      --title-color: #000000; /* Título en negro */
+      --input-background: #ffffff;
+      --input-border: #ced4da;
+      --input-text: #333333; /* Texto oscuro para inputs */
+      --button-background: #1ABC9C; /* Verde Principal */
+      --button-hover: #16A085;      /* Verde Oscuro */
+      --button-active: #148F77;     /* Verde Más Oscuro */
+      --button-clear: #E74C3C;      /* Rojo Principal */
+      --button-clear-hover: #C0392B;/* Rojo Oscuro */
+      --button-clear-active: #A93226;/* Rojo Más Oscuro */
+      --slider-track: #ced4da;
+      --slider-thumb: #1ABC9C;      /* Verde para el slider */
+      --cuotas-display: #000000; /* Texto negro en modo claro */
+      --result-background: #e0e0e0; /* Fondo resultados en modo claro */
+      --result-text: #3498DB;        /* Texto resultados */
+      --box-shadow: rgba(0, 0, 0, 0.05); /* Sombras suaves */
+      --transition-speed: 0.3s;
+      --font-primary: 'Roboto', sans-serif;
+      --font-secondary: 'Montserrat', sans-serif;
+      --select-arrow: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%231ABC9C"><polygon points="0,0 20,0 10,10" /></svg>');
+    }
 
-        .dark-theme {
-            --background: #1a1a1a; /* Fondo oscuro */
-            --background-calculator: #2c2c2c;
-            --text-color: #e0e0e0;
-            --title-color: #ffffff; /* Título en blanco */
-            --input-background: #3a3a3a;
-            --input-border: #555555;
-            --input-text: #e0e0e0;
-            --slider-track: #555555;
-            --slider-thumb: #1ABC9C;
-            --cuotas-display: #e0e0e0; /* Texto claro en modo oscuro */
-            --result-background: #3a3a3a; /* Fondo resultados en modo oscuro */
-            --select-arrow: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%23e0e0e0"><polygon points="0,0 20,0 10,10" /></svg>');
-        }
+    .dark-theme {
+      --background: #1a1a1a; /* Fondo oscuro */
+      --background-calculator: #2c2c2c;
+      --text-color: #e0e0e0;
+      --title-color: #ffffff; /* Título en blanco */
+      --input-background: #3a3a3a;
+      --input-border: #555555;
+      --input-text: #e0e0e0;
+      --slider-track: #555555;
+      --slider-thumb: #1ABC9C;
+      --cuotas-display: #e0e0e0; /* Texto claro en modo oscuro */
+      --result-background: #3a3a3a; /* Fondo resultados en modo oscuro */
+      --select-arrow: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%23e0e0e0"><polygon points="0,0 20,0 10,10" /></svg>');
+    }
 
-        /* Reset de márgenes y paddings */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    /* Reset de márgenes y paddings */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* Estilos generales del cuerpo */
-        body {
-            font-family: var(--font-primary);
-            background: var(--background);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            min-height: 100vh;
-            transition: background var(--transition-speed);
-        }
+    /* Estilos generales del cuerpo */
+    body {
+      font-family: var(--font-primary);
+      background: var(--background);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: background var(--transition-speed);
+    }
 
-        /* Contenedor del logo */
-        .logo-container {
-            margin-bottom: 30px;
-            text-align: center;
-        }
+    /* Contenedor del logo */
+    .logo-container {
+      margin-bottom: 30px;
+      text-align: center;
+    }
 
-        .logo-container img {
-            max-width: 400px;
-            width: 100%;
-            height: auto;
-        }
+    .logo-container img {
+      max-width: 400px;
+      width: 100%;
+      height: auto;
+    }
 
-        /* Contenedor de la calculadora */
-        .calculator {
-            background-color: var(--background-calculator);
-            padding: 40px 50px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px var(--box-shadow);
-            max-width: 800px;
-            width: 100%;
-            animation: fadeIn 0.8s ease-in-out;
-            position: relative;
-            transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-        }
+    /* Contenedor de la calculadora */
+    .calculator {
+      background-color: var(--background-calculator);
+      padding: 40px 50px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px var(--box-shadow);
+      max-width: 800px;
+      width: 100%;
+      animation: fadeIn 0.8s ease-in-out;
+      position: relative;
+      transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+    }
 
-        /* Animación de entrada */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* Animación de entrada */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        /* Botón de modo oscuro */
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 1.8em;
-            color: var(--text-color);
-            transition: color var(--transition-speed);
-        }
+    /* Botón de modo oscuro */
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.8em;
+      color: var(--text-color);
+      transition: color var(--transition-speed);
+    }
 
-        .theme-toggle:focus {
-            outline: none;
-        }
+    .theme-toggle:focus {
+      outline: none;
+    }
 
-        /* Título de la calculadora */
-        .calculator h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--title-color);
-            font-family: var(--font-secondary);
-            font-size: 2em;
-            letter-spacing: 1px;
-            position: relative;
-        }
+    /* Título de la calculadora */
+    .calculator h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--title-color);
+      font-family: var(--font-secondary);
+      font-size: 2em;
+      letter-spacing: 1px;
+      position: relative;
+    }
 
-        /* Icono decorativo */
-        .calculator h2::after {
-            content: '';
-            position: absolute;
-            width: 50px;
-            height: 5px;
-            background: var(--button-background);
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 5px;
-        }
+    /* Icono decorativo */
+    .calculator h2::after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 5px;
+      background: var(--button-background);
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 5px;
+    }
 
-        /* Grupos de entrada */
-        .input-group {
-            margin-bottom: 25px;
-        }
+    /* Grupos de entrada */
+    .input-group {
+      margin-bottom: 25px;
+    }
 
-        .input-group label {
-            display: block;
-            margin-bottom: 10px;
-            color: var(--input-text);
-            font-weight: 600;
-            font-size: 1.1em;
-        }
+    .input-group label {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--input-text);
+      font-weight: 600;
+      font-size: 1.1em;
+    }
 
-        .input-group input,
-        .input-group select {
-            width: 100%;
-            padding: 12px 20px;
-            border: 1px solid var(--input-border);
-            border-radius: 8px;
-            font-size: 1em;
-            background-color: var(--input-background);
-            color: var(--input-text);
-            transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
-            outline: none;
-        }
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      padding: 12px 20px;
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      font-size: 1em;
+      background-color: var(--input-background);
+      color: var(--input-text);
+      transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
+      outline: none;
+    }
 
-        .input-group input:focus,
-        .input-group select:focus {
-            border-color: var(--button-background);
-            box-shadow: 0 0 5px var(--button-background);
-        }
+    .input-group input:focus,
+    .input-group select:focus {
+      border-color: var(--button-background);
+      box-shadow: 0 0 5px var(--button-background);
+    }
 
-        .input-group select {
-            appearance: none;
-            background-image: var(--select-arrow);
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 10px;
-            cursor: pointer;
-            padding-right: 40px;
-        }
+    .input-group select {
+      appearance: none;
+      background-image: var(--select-arrow);
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 10px;
+      cursor: pointer;
+      padding-right: 40px;
+    }
 
-        /* Estilos del slider */
-        .slider-container input[type="range"] {
-            width: 100%;
-            -webkit-appearance: none;
-            background: transparent;
-            height: 12px;
-            border-radius: 5px;
-            outline: none;
-            margin: 15px 0;
-            transition: background 0.3s ease; /* Transición suave cuando se mueve */
-        }
+    /* Estilos del slider */
+    .slider-container input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      background: transparent;
+      height: 12px;
+      border-radius: 5px;
+      outline: none;
+      margin: 15px 0;
+      transition: background 0.3s ease;
+    }
 
-        .slider-container input[type="range"]:focus {
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Agregar sombra cuando está enfocado */
-        }
+    .slider-container input[type="range"]:focus {
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
 
-        .slider-container input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 26px;
-            height: 26px;
-            background: var(--slider-thumb);
-            cursor: pointer;
-            border-radius: 50%;
-            border: 2px solid var(--background-calculator);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            transition: background var(--transition-speed), transform 0.2s;
-        }
+    .slider-container input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 26px;
+      height: 26px;
+      background: var(--slider-thumb);
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid var(--background-calculator);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: background var(--transition-speed), transform 0.2s;
+    }
 
-        .slider-container input[type="range"]::-webkit-slider-thumb:hover {
-            background: var(--button-hover);
-            transform: scale(1.1);
-        }
+    .slider-container input[type="range"]::-webkit-slider-thumb:hover {
+      background: var(--button-hover);
+      transform: scale(1.1);
+    }
 
-        .slider-container input[type="range"]::-moz-range-thumb {
-            width: 26px;
-            height: 26px;
-            background: var(--slider-thumb);
-            cursor: pointer;
-            border-radius: 50%;
-            border: 2px solid var(--background-calculator);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            transition: background var(--transition-speed), transform 0.2s;
-        }
+    .slider-container input[type="range"]::-moz-range-thumb {
+      width: 26px;
+      height: 26px;
+      background: var(--slider-thumb);
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid var(--background-calculator);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: background var(--transition-speed), transform 0.2s;
+    }
 
-        .slider-container input[type="range"]::-moz-range-thumb:hover {
-            background: var(--button-hover);
-            transform: scale(1.1);
-        }
+    .slider-container input[type="range"]::-moz-range-thumb:hover {
+      background: var(--button-hover);
+      transform: scale(1.1);
+    }
 
-        /* Línea del slider */
-        .slider-container input[type="range"]::-webkit-slider-runnable-track,
-        .slider-container input[type="range"]::-moz-range-track {
-            height: 12px;
-            background: var(--slider-track);
-            border-radius: 5px;
-        }
+    /* Línea del slider */
+    .slider-container input[type="range"]::-webkit-slider-runnable-track,
+    .slider-container input[type="range"]::-moz-range-track {
+      height: 12px;
+      background: var(--slider-track);
+      border-radius: 5px;
+    }
 
-        /* Display de cuotas */
-        .cuotas-display {
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 1.2em;
-            color: var(--cuotas-display);
-            font-weight: 600;
-        }
+    /* Display de cuotas */
+    .cuotas-display {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 1.2em;
+      color: var(--cuotas-display);
+      font-weight: 600;
+    }
 
-        /* Contenedor de botones */
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-top: 15px;
-        }
+    /* Contenedor de botones */
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 15px;
+    }
 
-        /* Botón de calcular y borrar */
-        .button-group button {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            color: #ffffff;
-            font-size: 1.1em;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color var(--transition-speed), transform 0.2s, box-shadow var(--transition-speed);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    /* Botón de calcular y borrar */
+    .button-group button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      color: #ffffff;
+      font-size: 1.1em;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color var(--transition-speed), transform 0.2s, box-shadow var(--transition-speed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .calculate-button {
-            background-color: var(--button-background);
-        }
+    .calculate-button {
+      background-color: var(--button-background);
+    }
 
-        .clear-button {
-            background-color: var(--button-clear);
-        }
+    .clear-button {
+      background-color: var(--button-clear);
+    }
 
-        .button-group button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+    .button-group button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
 
-        .button-group button:active {
-            transform: translateY(0);
-            box-shadow: none;
-        }
+    .button-group button:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
 
-        /* Resultado */
-        .result {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 1.2em;
-            color: var(--result-text);
-            line-height: 1.8;
-            background: var(--result-background);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-            overflow-x: auto; /* Para permitir el desplazamiento horizontal en pantallas pequeñas */
-        }
+    /* Resultado */
+    .result {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1.2em;
+      color: var(--result-text);
+      line-height: 1.8;
+      background: var(--result-background);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+      overflow-x: auto;
+    }
 
-        .result table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    .result table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
 
-        .result th, .result td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
+    .result th, .result td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
 
-        .result th {
-            background-color: var(--button-background);
-            color: white;
-        }
+    .result th {
+      background-color: var(--button-background);
+      color: white;
+    }
 
-        .result tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+    .result tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
 
-        .result tr:hover {
-            background-color: #ddd;
-        }
+    .result tr:hover {
+      background-color: #ddd;
+    }
 
-        /* Estilos para los íconos de los botones */
-        .button-group button i {
-            margin-right: 8px;
-            transition: transform 0.2s;
-        }
+    /* Estilos para los íconos de los botones */
+    .button-group button i {
+      margin-right: 8px;
+      transition: transform 0.2s;
+    }
 
-        .button-group button:hover i {
-            transform: scale(1.2);
-        }
+    .button-group button:hover i {
+      transform: scale(1.2);
+    }
 
-        /* Botón de Exportar a PDF */
-        .export-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: var(--button-background);
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color var(--transition-speed);
-            display: none; /* Oculto por defecto */
-            align-items: center;
-            justify-content: center;
-            margin-left: auto; /* Centrar horizontalmente */
-            margin-right: auto;
-        }
+    /* Botón de Exportar a PDF */
+    .export-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: var(--button-background);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color var(--transition-speed);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
-        .export-button:hover {
-            background-color: var(--button-hover);
-        }
+    .export-button:hover {
+      background-color: var(--button-hover);
+    }
 
-        /* Modal de Error */
-        .modal {
-            display: none; /* Oculto por defecto */
-            position: fixed;
-            z-index: 1000; /* Por encima de otros elementos */
-            left: 0;
-            top: 0;
-            width: 100%; /* Ancho completo */
-            height: 100%; /* Alto completo */
-            overflow: auto; /* Habilitar scroll si es necesario */
-            background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
-            transition: opacity var(--transition-speed);
-        }
+    /* Modal de Error */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      transition: opacity var(--transition-speed);
+    }
 
-        .modal-content {
-            background-color: #fefefe;
-            margin: 25% auto; /* 25% desde arriba y centrado */
-            padding: 20px;
-            border: none;
-            width: 80%;
-            max-width: 400px; /* Ancho máximo */
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            animation: fadeInModal 0.5s;
-            text-align: center;
-            position: relative;
-        }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 25% auto;
+      padding: 20px;
+      border: none;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      animation: fadeInModal 0.5s;
+      text-align: center;
+      position: relative;
+    }
 
-        @keyframes fadeInModal {
-            from { opacity: 0; transform: translateY(-50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    @keyframes fadeInModal {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .close-modal {
-            color: #aaa;
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 1.5em;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    .close-modal {
+      color: #aaa;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 1.5em;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-        .close-modal:hover,
-        .close-modal:focus {
-            color: #000;
-            text-decoration: none;
-        }
+    .close-modal:hover,
+    .close-modal:focus {
+      color: #000;
+      text-decoration: none;
+    }
 
-        .modal-message {
-            margin-top: 40px;
-            font-size: 1.1em;
-            color: #333;
-        }
+    .modal-message {
+      margin-top: 40px;
+      font-size: 1.1em;
+      color: #333;
+    }
 
-        .modal-button {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-        }
+    .modal-button {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+    }
 
-        .modal-button button {
-            padding: 10px 20px;
-            background-color: var(--button-background);
-            border: none;
-            color: #ffffff;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color var(--transition-speed);
-            font-size: 1em;
-        }
+    .modal-button button {
+      padding: 10px 20px;
+      background-color: var(--button-background);
+      border: none;
+      color: #ffffff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color var(--transition-speed);
+      font-size: 1em;
+    }
 
-        .modal-button button:hover {
-            background-color: var(--button-hover);
-        }
+    .modal-button button:hover {
+      background-color: var(--button-hover);
+    }
 
-        /* Responsividad */
-        @media (max-width: 768px) {
-            .calculator {
-                max-width: 90%;
-            }
-        }
+    /* Responsividad */
+    @media (max-width: 768px) {
+      .calculator {
+        max-width: 90%;
+      }
+    }
 
-        @media (max-width: 480px) {
-            .calculator {
-                padding: 30px 25px;
-            }
+    @media (max-width: 480px) {
+      .calculator {
+        padding: 30px 25px;
+      }
 
-            .calculator h2 {
-                font-size: 1.6em;
-            }
+      .calculator h2 {
+        font-size: 1.6em;
+      }
 
-            .input-group label,
-            .slider-group label {
-                font-size: 1em;
-            }
+      .input-group label,
+      .slider-group label {
+        font-size: 1em;
+      }
 
-            .input-group input,
-            .input-group select,
-            .slider-container input[type="range"] {
-                font-size: 0.95em;
-            }
+      .input-group input,
+      .input-group select,
+      .slider-container input[type="range"] {
+        font-size: 0.95em;
+      }
 
-            .button-group {
-                flex-direction: column;
-                gap: 10px;
-            }
+      .button-group {
+        flex-direction: column;
+        gap: 10px;
+      }
 
-            .button-group button {
-                font-size: 1em;
-                padding: 12px;
-            }
+      .button-group button {
+        font-size: 1em;
+        padding: 12px;
+      }
 
-            .result {
-                font-size: 1em;
-                padding: 15px;
-            }
+      .result {
+        font-size: 1em;
+        padding: 15px;
+      }
 
-            .theme-toggle {
-                font-size: 1.3em;
-            }
+      .theme-toggle {
+        font-size: 1.3em;
+      }
 
-            /* Ajuste del logo en pantallas pequeñas */
-            .logo-container img {
-                max-width: 250px;
-            }
+      .logo-container img {
+        max-width: 250px;
+      }
 
-            /* Estilos del Modal en pantallas pequeñas */
-            .modal-content {
-                width: 90%;
-                margin: 35% auto; /* Más espacio desde arriba en pantallas pequeñas */
-            }
-        }
-    </style>
+      .modal-content {
+        width: 90%;
+        margin: 35% auto;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Contenedor del logo fuera de la calculadora -->
-    <div class="logo-container">
-        <img src="https://sefaruniversal.com/wp-content/uploads/2021/01/Logo-de-Sefar-Universal-nuevo-rediseno-pagina-web-Abogados-y-Genealogistas-letras-blancas.png" alt="Logo Sefar Universal">
+  <!-- Contenedor del logo -->
+  <div class="logo-container">
+    <img src="https://sefaruniversal.com/wp-content/uploads/2021/01/Logo-de-Sefar-Universal-nuevo-rediseno-pagina-web-Abogados-y-Genealogistas-letras-blancas.png" alt="Logo Sefar Universal">
+  </div>
+
+  <div class="calculator">
+    <!-- Botón de modo oscuro -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+      <i class="fas fa-moon"></i>
+    </button>
+
+    <h2>Simula tu Financiamiento con Sefar Universal</h2>
+
+    <!-- Grupo de monto a financiar -->
+    <div class="input-group">
+      <label for="monto">Monto a Financiar:</label>
+      <input type="number" id="monto" min="1000" max="100000" step="100" placeholder="Ingrese el monto (€)" aria-label="Monto a Financiar" required>
     </div>
 
-    <div class="calculator">
-        <!-- Botón de modo oscuro -->
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
-            <i class="fas fa-moon"></i>
-        </button>
-
-        <h2>Calculadora de Créditos Sefar Universal</h2>
-
-        <!-- Grupo de monto a financiar -->
-        <div class="input-group">
-            <label for="monto">Monto a Financiar:</label>
-            <input type="number" id="monto" min="1000" max="100000" step="100" placeholder="Ingrese el monto (€)" aria-label="Monto a Financiar" required>
-        </div>
-
-        <!-- Grupo de servicios -->
-        <div class="input-group">
-            <label for="servicio">Selecciona un Servicio:</label>
-            <select id="servicio" aria-label="Selecciona un Servicio">
-                <option value="">-- Seleccione un servicio --</option>
-                <option value="8000">Nacionalidad Española por origen sefardi (€8.000)</option>
-                <option value="8000">Nacionalidad Portuguesa por origen sefardi (€8.000)</option>
-                <option value="8000">Nacionalidad Italiana por origen sefardi (€8.000)</option>
-            </select>
-        </div>
-
-        <!-- Grupo del slider -->
-        <div class="slider-group">
-            <label for="cuotas">Número de Cuotas:</label>
-            <div class="slider-container">
-                <input type="range" id="cuotas" min="3" max="12" value="5" aria-label="Número de Cuotas">
-            </div>
-        </div>
-
-        <div class="cuotas-display">
-            Cuotas: <span id="cuotas-value">5</span>
-        </div>
-
-        <div class="button-group">
-            <button class="calculate-button" id="calculate-button">
-                <i class="fas fa-calculator"></i> Calcular
-            </button>
-            <button class="clear-button" id="clear-button">
-                <i class="fas fa-trash-alt"></i> Borrar
-            </button>
-        </div>
-
-        <div class="result" id="resultado" aria-live="polite">
-            <!-- Tabla de amortización aparecerá aquí -->
-            <!-- Botón de Exportar a PDF -->
-            <button id="export-button" class="export-button" style="margin-top: 20px; display: none;">
-                <i class="fas fa-file-pdf"></i> Exportar a PDF
-            </button>
-        </div>
+    <!-- Grupo de servicios -->
+    <div class="input-group">
+      <label for="servicio">Selecciona un Servicio:</label>
+      <select id="servicio" aria-label="Selecciona un Servicio">
+        <option value="">-- Seleccione un servicio --</option>
+        <option value="8000">Nacionalidad Española por origen sefardi</option>
+        <option value="8000">Nacionalidad Portuguesa por origen sefardi</option>
+        <option value="8000">Nacionalidad Italiana por origen sefardi</option>
+      </select>
     </div>
 
-    <!-- Modal de Error -->
-    <div id="error-modal" class="modal" role="alertdialog" aria-labelledby="modal-message" aria-modal="true">
-        <div class="modal-content">
-            <span class="close-modal" id="close-modal" aria-label="Cerrar Modal">&times;</span>
-            <div class="modal-message" id="modal-message">
-                Por favor, ingresa un monto válido.
-            </div>
-            <div class="modal-button">
-                <button id="close-button">Aceptar</button>
-            </div>
-        </div>
+    <!-- Grupo del slider -->
+    <div class="slider-group">
+      <label for="cuotas">Número de Cuotas:</label>
+      <div class="slider-container">
+        <input type="range" id="cuotas" min="3" max="12" value="5" aria-label="Número de Cuotas">
+      </div>
     </div>
 
-    <!-- Incluir jsPDF y autoTable al final del body para asegurar que se cargan después del DOM -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <div class="cuotas-display">
+      Cuotas: <span id="cuotas-value">5</span>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const slider = document.getElementById('cuotas');
-            const cuotasValue = document.getElementById('cuotas-value');
-            const themeToggle = document.getElementById('theme-toggle');
-            const body = document.body;
-            const montoInput = document.getElementById('monto');
-            const servicioSelect = document.getElementById('servicio');
-            const calculateButton = document.getElementById('calculate-button');
-            const clearButton = document.getElementById('clear-button');
+    <div class="button-group">
+      <button class="calculate-button" id="calculate-button">
+        <i class="fas fa-calculator"></i> Calcular
+      </button>
+      <button class="clear-button" id="clear-button">
+        <i class="fas fa-trash-alt"></i> Borrar
+      </button>
+    </div>
 
-            // Modal Elements
-            const errorModal = document.getElementById('error-modal');
-            const closeModal = document.getElementById('close-modal');
-            const closeButton = document.getElementById('close-button');
-            const modalMessage = document.getElementById('modal-message');
+    <div class="result" id="resultado" aria-live="polite">
+      <!-- Aquí aparecerá la tabla de amortización y el botón de exportar a PDF -->
+    </div>
+  </div>
 
-            // Export Button
-            const exportButton = document.getElementById('export-button');
+  <!-- Modal de Error -->
+  <div id="error-modal" class="modal" role="alertdialog" aria-labelledby="modal-message" aria-modal="true">
+    <div class="modal-content">
+      <span class="close-modal" id="close-modal" aria-label="Cerrar Modal">&times;</span>
+      <div class="modal-message" id="modal-message">
+        Por favor, ingresa un monto válido.
+      </div>
+      <div class="modal-button">
+        <button id="close-button">Aceptar</button>
+      </div>
+    </div>
+  </div>
 
-            // Actualizar el valor mostrado cuando se mueve el slider
-            slider.addEventListener('input', function() {
-                cuotasValue.textContent = this.value;
-            });
+  <!-- Incluir jsPDF y autoTable -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
-            // Función para mostrar el modal de error
-            function showErrorModal(message = 'Por favor, ingresa un monto válido.') {
-                modalMessage.textContent = message;
-                errorModal.style.display = 'block';
-                closeButton.focus(); // Enfocar el botón de cerrar para accesibilidad
-            }
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const slider = document.getElementById('cuotas');
+      const cuotasValue = document.getElementById('cuotas-value');
+      const themeToggle = document.getElementById('theme-toggle');
+      const body = document.body;
+      const montoInput = document.getElementById('monto');
+      const servicioSelect = document.getElementById('servicio');
+      const calculateButton = document.getElementById('calculate-button');
+      const clearButton = document.getElementById('clear-button');
 
-            // Función para ocultar el modal de error
-            function hideErrorModal() {
-                errorModal.style.display = 'none';
-                calculateButton.focus(); // Volver al botón calcular después de cerrar el modal
-            }
+      // Elementos del Modal
+      const errorModal = document.getElementById('error-modal');
+      const closeModal = document.getElementById('close-modal');
+      const closeButton = document.getElementById('close-button');
+      const modalMessage = document.getElementById('modal-message');
 
-            // Función para calcular la cuota mensual con interés simple
-            function calcularCuotaMensualSimple(P, r, n) {
-                const I = P * r; // Interés total
-                const total = P + I; // Monto total a pagar
-                return total / n; // Cuota mensual
-            }
+      // Actualizar el valor mostrado cuando se mueve el slider
+      slider.addEventListener('input', function() {
+        cuotasValue.textContent = this.value;
+      });
 
-            // Función para generar la tabla de amortización sin cargos adicionales
-            function generarTablaAmortizacion(P, r, n, M) {
-                let tabla = `
-                    <h3>Tabla de Amortización</h3>
-                    <table id="tablaAmortizacion">
-                        <thead>
-                            <tr>
-                                <th>Cuota #</th>
-                                <th>Valor Cuota (€)</th>
-                                <th>% Administrativo y Seguro</th>
-                                <th>Total a Pagar (€)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
+      // Función para mostrar el modal de error
+      function showErrorModal(message = 'Por favor, ingresa un monto válido.') {
+        modalMessage.textContent = message;
+        errorModal.style.display = 'block';
+        closeButton.focus();
+      }
 
-                for (let i = 1; i <= n; i++) {
-                    let administrativoSeguro = 0; // 0% si no deseas cargos adicionales
-                    let totalPagar = M + (M * administrativoSeguro / 100); // Suma del valor de la cuota + cargos
+      // Función para ocultar el modal de error
+      function hideErrorModal() {
+        errorModal.style.display = 'none';
+        calculateButton.focus();
+      }
 
-                    // Formatear los números para mejor presentación
-                    let MFormatted = M.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                    let totalFormatted = totalPagar.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      // Función para calcular la cuota mensual con interés simple (5% sobre el monto financiado)
+      // Desglose: Capital por cuota = P/n y Interés por cuota = (P*r)/n
+      function calcularCuotaMensualSimple(P, r, n) {
+        const capitalPorCuota = P / n;
+        const interesPorCuota = (P * r) / n;
+        return capitalPorCuota + interesPorCuota;
+      }
 
-                    tabla += `
-                        <tr>
-                            <td>${i}</td>
-                            <td>€${MFormatted}</td>
-                            <td>${administrativoSeguro}%</td>
-                            <td>€${totalFormatted}</td>
-                        </tr>
-                    `;
-                }
+      // Función para generar la tabla de amortización con desglose:
+      // Valor Cuota (€) = Capital por cuota, 
+      // % Administrativo y Seguro = 5% (fijo),
+      // Total a Pagar (€) = Capital por cuota + Interés por cuota.
+      function generarTablaAmortizacion(P, r, n) {
+        const capitalPorCuota = P / n;
+        const interesPorCuota = (P * r) / n;
+        const cuotaTotal = capitalPorCuota + interesPorCuota;
+        
+        let tabla = `
+          <h3>Tabla de Amortización</h3>
+          <table id="tablaAmortizacion">
+            <thead>
+              <tr>
+                <th>Cuota #</th>
+                <th>Valor Cuota (€)</th>
+                <th>% Administrativo y Seguro</th>
+                <th>Total a Pagar (€)</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+        for (let i = 1; i <= n; i++) {
+          tabla += `
+            <tr>
+              <td>${i}</td>
+              <td>€${capitalPorCuota.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+              <td>5%</td>
+              <td>€${cuotaTotal.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+            </tr>
+          `;
+        }
+        tabla += `
+            </tbody>
+          </table>
+        `;
+        return tabla;
+      }
 
-                tabla += `
-                        </tbody>
-                    </table>
-                `;
+      // Función para exportar a PDF utilizando jsPDF y autoTable,
+      // agregando además un mensaje adicional informativo.
+      function exportarPDFConAutoTable() {
+        console.log('Función exportarPDFConAutoTable ejecutada.');
 
-                return tabla;
-            }
+        const elemento = document.getElementById('resultado');
 
-            // Función para exportar a PDF usando jsPDF y autoTable
-            function exportarPDFConAutoTable() {
-                console.log('Exportar PDF con autoTable Función Ejecutada');
-                
-                // Seleccionar el elemento que contiene la tabla de amortización
-                const elemento = document.getElementById('resultado');
+        if (elemento.innerHTML.trim() === '') {
+          alert('No hay contenido para exportar. Por favor, realiza un cálculo primero.');
+          return;
+        }
 
-                // Verificar si hay contenido para exportar
-                if (elemento.innerHTML.trim() === '') {
-                    alert('No hay contenido para exportar. Por favor, realiza un cálculo primero.');
-                    return;
-                }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
 
-                // Log del contenido actual de 'resultado'
-                console.log('Contenido de #resultado:', elemento.innerHTML);
+        const tituloElement = elemento.querySelector('h3');
+        const tabla = elemento.querySelector('#tablaAmortizacion');
 
-                // Crear una instancia de jsPDF
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
+        if (!tituloElement || !tabla) {
+          alert('No se encontró la tabla de amortización para exportar.');
+          return;
+        }
 
-                // Obtener el título y la tabla desde el DOM
-                const tituloElement = elemento.querySelector('h3');
-                const tabla = elemento.querySelector('#tablaAmortizacion');
+        const titulo = tituloElement.innerText;
 
-                // Verificar si existen el título y la tabla
-                if (!tituloElement || !tabla) {
-                    alert('No se encontró la tabla de amortización para exportar.');
-                    return;
-                }
-
-                const titulo = tituloElement.innerText;
-
-                // Extraer los encabezados de la tabla
-                const headers = [];
-                tabla.querySelectorAll('thead th').forEach(th => {
-                    headers.push(th.innerText);
-                });
-
-                // Extraer los datos de la tabla
-                const data = [];
-                tabla.querySelectorAll('tbody tr').forEach(tr => {
-                    const row = [];
-                    tr.querySelectorAll('td').forEach(td => {
-                        row.push(td.innerText);
-                    });
-                    data.push(row);
-                });
-
-                // Agregar el título al PDF
-                doc.setFontSize(18);
-                doc.text(titulo, 14, 22);
-
-                // Agregar la tabla al PDF utilizando autoTable
-                doc.autoTable({
-                    startY: 30,
-                    head: [headers],
-                    body: data,
-                    styles: { fontSize: 10 },
-                    theme: 'striped',
-                    headStyles: { fillColor: [26, 188, 156] }, // Color del encabezado
-                    margin: { top: 30 }
-                });
-
-                // Guardar el PDF
-                doc.save('tabla_amortizacion.pdf');
-                console.log('PDF generado exitosamente con jsPDF y autoTable.');
-            }
-
-            // Función para calcular el crédito utilizando interés simple
-            function calcularCredito() {
-                const monto = parseFloat(montoInput.value);
-                const cuotas = parseInt(slider.value, 10);
-                const servicio = servicioSelect.value;
-
-                // Validación del Monto a Financiar
-                if (isNaN(monto) || monto < parseFloat(montoInput.min) || monto > parseFloat(montoInput.max)) {
-                    showErrorModal('Por favor, ingresa un monto válido entre €1,000 y €100,000.');
-                    return;
-                }
-
-                // Validación del Servicio Seleccionado
-                if (servicio === "") {
-                    showErrorModal('Por favor, selecciona un servicio.');
-                    return;
-                }
-
-                // Validación del Número de Cuotas
-                if (isNaN(cuotas) || cuotas < 3 || cuotas > 12) {
-                    showErrorModal('Por favor, selecciona un número de cuotas válido entre 3 y 12.');
-                    return;
-                }
-
-                // Tasa de interés fija del 5% total
-                const tasaInteres = 0.05; // 5% total
-
-                const P = monto;
-                const r = tasaInteres;
-                const n = cuotas;
-                const M = calcularCuotaMensualSimple(P, r, n);
-
-                console.log(`Monto: ${P}, Tasa de Interés: ${r}, Cuotas: ${n}, Cuota Mensual: ${M}`);
-
-                // Generar la tabla de amortización
-                const tablaAmortizacion = generarTablaAmortizacion(P, r, n, M);
-
-                console.log('Tabla de Amortización Generada:', tablaAmortizacion);
-
-                // Eliminar cualquier botón de exportación existente para evitar duplicados
-                const existingExportButton = document.getElementById('export-button');
-                if (existingExportButton) {
-                    existingExportButton.remove();
-                }
-
-                // Actualizar el contenido del div#resultado con la tabla y el nuevo botón de exportación
-                document.getElementById('resultado').innerHTML = `
-                    ${tablaAmortizacion}
-                    <!-- Botón de Exportar a PDF -->
-                    <button id="export-button" class="export-button">
-                        <i class="fas fa-file-pdf"></i> Exportar a PDF
-                    </button>
-                `;
-
-                // Mostrar el botón de exportación y asignar el evento de clic
-                const newExportButton = document.getElementById('export-button');
-                newExportButton.style.display = 'flex'; // Cambiar display a flex para alinear el ícono y el texto
-                newExportButton.addEventListener('click', exportarPDFConAutoTable);
-            }
-
-            // Función para borrar los datos
-            function borrarDatos() {
-                montoInput.value = '';
-                servicioSelect.selectedIndex = 0;
-                slider.value = 5;
-                cuotasValue.textContent = 5;
-                document.getElementById('resultado').innerHTML = '';
-                exportButton.style.display = 'none'; // Ocultar el botón de exportación
-                montoInput.focus(); // Enfocar el campo de monto después de borrar
-            }
-
-            // Funcionalidad de modo oscuro
-            function toggleTheme() {
-                body.classList.toggle('dark-theme');
-
-                // Cambiar el ícono
-                const icon = themeToggle.querySelector('i');
-                if (body.classList.contains('dark-theme')) {
-                    icon.classList.replace('fa-moon', 'fa-sun');
-                } else {
-                    icon.classList.replace('fa-sun', 'fa-moon');
-                }
-
-                // Guardar la preferencia en localStorage
-                localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
-            }
-
-            // Cargar la preferencia de tema al cargar la página
-            (function loadTheme() {
-                const savedTheme = localStorage.getItem('theme');
-                if (savedTheme === 'dark') {
-                    body.classList.add('dark-theme');
-                    const icon = themeToggle.querySelector('i');
-                    icon.classList.replace('fa-moon', 'fa-sun');
-                }
-            })();
-
-            // Event listeners para los botones
-            calculateButton.addEventListener('click', calcularCredito);
-            clearButton.addEventListener('click', borrarDatos);
-            themeToggle.addEventListener('click', toggleTheme);
-
-            // Event listeners para el modal
-            closeModal.addEventListener('click', hideErrorModal);
-            closeButton.addEventListener('click', hideErrorModal);
-
-            // Cerrar el modal al hacer clic fuera del contenido
-            window.addEventListener('click', function(event) {
-                if (event.target === errorModal) {
-                    hideErrorModal();
-                }
-            });
-
-            // Cerrar el modal con la tecla Esc
-            window.addEventListener('keydown', function(event) {
-                if (event.key === 'Escape' && errorModal.style.display === 'block') {
-                    hideErrorModal();
-                }
-            });
+        // Extraer encabezados
+        const headers = [];
+        tabla.querySelectorAll('thead th').forEach(th => {
+          headers.push(th.innerText);
         });
-    </script>
+
+        // Extraer datos
+        const data = [];
+        tabla.querySelectorAll('tbody tr').forEach(tr => {
+          const row = [];
+          tr.querySelectorAll('td').forEach(td => {
+            row.push(td.innerText);
+          });
+          data.push(row);
+        });
+
+        doc.setFontSize(18);
+        doc.text(titulo, 14, 22);
+
+        doc.autoTable({
+          startY: 30,
+          head: [headers],
+          body: data,
+          styles: { fontSize: 10 },
+          theme: 'striped',
+          headStyles: { fillColor: [26, 188, 156] },
+          margin: { top: 30 }
+        });
+
+        // Agregar mensaje informativo adicional en el PDF
+        const finalY = doc.lastAutoTable.finalY || 50;
+        doc.setFontSize(10);
+        doc.text(
+          "Esto es una simulación de financiamiento con Sefar Universal.\nPor favor, comuníquese con el dpto. encargado para mayor información.",
+          14,
+          finalY + 10,
+          { maxWidth: 180 }
+        );
+
+        doc.save('tabla_amortizacion.pdf');
+        console.log('PDF generado exitosamente.');
+      }
+
+      // Función para calcular el crédito y generar la tabla
+      function calcularCredito() {
+        const monto = parseFloat(montoInput.value);
+        const cuotas = parseInt(slider.value, 10);
+        const servicio = servicioSelect.value;
+
+        // Validaciones
+        if (isNaN(monto) || monto < parseFloat(montoInput.min) || monto > parseFloat(montoInput.max)) {
+          showErrorModal('Por favor, ingresa un monto válido entre €1,000 y €100,000.');
+          return;
+        }
+        if (servicio === "") {
+          showErrorModal('Por favor, selecciona un servicio.');
+          return;
+        }
+        if (isNaN(cuotas) || cuotas < 3 || cuotas > 12) {
+          showErrorModal('Por favor, selecciona un número de cuotas válido entre 3 y 12.');
+          return;
+        }
+
+        const tasaInteres = 0.05; // Tasa de interés del 5%
+        console.log(`Monto: ${monto}, Tasa de Interés: ${tasaInteres}, Cuotas: ${cuotas}`);
+        
+        // Generar la tabla de amortización con desglose
+        const tablaAmortizacion = generarTablaAmortizacion(monto, tasaInteres, cuotas);
+
+        // Eliminar botón de exportación previo (si existe)
+        const existingExportButton = document.getElementById('export-button');
+        if (existingExportButton) {
+          existingExportButton.remove();
+        }
+
+        // Actualizar el contenido del resultado
+        document.getElementById('resultado').innerHTML = `
+          ${tablaAmortizacion}
+          <button id="export-button" class="export-button">
+            <i class="fas fa-file-pdf"></i> Exportar a PDF
+          </button>
+        `;
+
+        // Agregar el evento al botón de exportar
+        const newExportButton = document.getElementById('export-button');
+        newExportButton.style.display = 'flex';
+        newExportButton.addEventListener('click', exportarPDFConAutoTable);
+      }
+
+      // Función para borrar datos
+      function borrarDatos() {
+        montoInput.value = '';
+        servicioSelect.selectedIndex = 0;
+        slider.value = 5;
+        cuotasValue.textContent = 5;
+        document.getElementById('resultado').innerHTML = '';
+        // Buscar y ocultar el botón de exportar (si existe)
+        const exportBtn = document.getElementById('export-button');
+        if (exportBtn) {
+          exportBtn.style.display = 'none';
+        }
+        montoInput.focus();
+      }
+
+      // Funcionalidad de modo oscuro
+      function toggleTheme() {
+        body.classList.toggle('dark-theme');
+        const icon = themeToggle.querySelector('i');
+        if (body.classList.contains('dark-theme')) {
+          icon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+          icon.classList.replace('fa-sun', 'fa-moon');
+        }
+        localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
+      }
+
+      // Cargar tema guardado
+      (function loadTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+          body.classList.add('dark-theme');
+          const icon = themeToggle.querySelector('i');
+          icon.classList.replace('fa-moon', 'fa-sun');
+        }
+      })();
+
+      // Asignar eventos a los botones y modal
+      calculateButton.addEventListener('click', calcularCredito);
+      clearButton.addEventListener('click', borrarDatos);
+      themeToggle.addEventListener('click', toggleTheme);
+      closeModal.addEventListener('click', hideErrorModal);
+      closeButton.addEventListener('click', hideErrorModal);
+
+      window.addEventListener('click', function(event) {
+        if (event.target === errorModal) {
+          hideErrorModal();
+        }
+      });
+
+      window.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && errorModal.style.display === 'block') {
+          hideErrorModal();
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
