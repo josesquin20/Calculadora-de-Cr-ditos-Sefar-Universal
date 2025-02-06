@@ -609,22 +609,26 @@
         calculateButton.focus();
       }
 
-      // Función para calcular la cuota mensual con interés simple (5% sobre el monto financiado)
-      // Desglose: Capital por cuota = P/n y Interés por cuota = (P*r)/n
+      // Función para calcular la cuota mensual con interés simple  
+      // Desglose:  
+      //   Valor Cuota (€) = P / n  
+      //   Interés por cuota = (P * r) / n  
+      //   Total a Pagar (€) = Valor Cuota + Interés por cuota  
+      // Se actualiza la tasa de interés a 10,1% (0.101) para obtener el Total a Pagar correcto.
       function calcularCuotaMensualSimple(P, r, n) {
         const capitalPorCuota = P / n;
         const interesPorCuota = (P * r) / n;
-        return capitalPorCuota + interesPorCuota;
+        return {
+          valorCuota: capitalPorCuota,
+          totalPagar: capitalPorCuota + interesPorCuota
+        };
       }
 
-      // Función para generar la tabla de amortización con desglose:
-      // Valor Cuota (€) = Capital por cuota, 
-      // % Administrativo y Seguro = 5% (fijo),
-      // Total a Pagar (€) = Capital por cuota + Interés por cuota.
+      // Función para generar la tabla de amortización con 4 columnas:
+      // "Cuota #", "Valor Cuota (€)", "% Administrativo y Seguro" y "Total a Pagar (€)"
+      // Se utiliza la tasa de interés r para calcular el valor de la cuota y el total.
       function generarTablaAmortizacion(P, r, n) {
-        const capitalPorCuota = P / n;
-        const interesPorCuota = (P * r) / n;
-        const cuotaTotal = capitalPorCuota + interesPorCuota;
+        const { valorCuota, totalPagar } = calcularCuotaMensualSimple(P, r, n);
         
         let tabla = `
           <h3>Tabla de Amortización</h3>
@@ -643,9 +647,9 @@
           tabla += `
             <tr>
               <td>${i}</td>
-              <td>€${capitalPorCuota.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+              <td>€${valorCuota.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
               <td>5%</td>
-              <td>€${cuotaTotal.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+              <td>€${totalPagar.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
             </tr>
           `;
         }
@@ -744,10 +748,10 @@
           return;
         }
 
-        const tasaInteres = 0.05; // Tasa de interés del 5%
+        const tasaInteres = 0.101; // Actualizamos la tasa a 10,1%
         console.log(`Monto: ${monto}, Tasa de Interés: ${tasaInteres}, Cuotas: ${cuotas}`);
         
-        // Generar la tabla de amortización con desglose
+        // Generar la tabla de amortización con 4 columnas
         const tablaAmortizacion = generarTablaAmortizacion(monto, tasaInteres, cuotas);
 
         // Eliminar botón de exportación previo (si existe)
